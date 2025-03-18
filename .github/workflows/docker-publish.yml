@@ -17,14 +17,14 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: 🏗️ Construire l’image Docker
-        run: docker build -t monpseudo/basic-http-server:latest .
+        run: docker build -t tiano1010/basic-http-server:latest .
 
       - name: 🏷️ Taguer l’image avec une version
         run: |
           VERSION="v1.0"
-          docker tag monpseudo/basic-http-server:latest monpseudo/basic-http-server:$VERSION
+          docker tag tiano1010/basic-http-server:latest tiano1010/basic-http-server:$VERSION
 
       - name: ☁️ Pousser l’image vers DockerHub
         run: |
-          docker push monpseudo/basic-http-server:latest
-          docker push monpseudo/basic-http-server:v1.0
+          docker push tiano1010/basic-http-server:latest
+          docker push tiano1010/basic-http-server:v1.0
