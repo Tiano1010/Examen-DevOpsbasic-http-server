@@ -1,0 +1,30 @@
+name: Docker Image CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout du code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Se connecter à DockerHub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: 🏗️ Construire l’image Docker
+        run: docker build -t monpseudo/basic-http-server:latest .
+
+      - name: 🏷️ Taguer l’image avec une version
+        run: |
+          VERSION="v1.0"
+          docker tag monpseudo/basic-http-server:latest monpseudo/basic-http-server:$VERSION
+
+      - name: ☁️ Pousser l’image vers DockerHub
+        run: |
+          docker push monpseudo/basic-http-server:latest
+          docker push monpseudo/basic-http-server:v1.0
